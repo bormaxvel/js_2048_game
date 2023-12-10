@@ -1,4 +1,10 @@
+/* eslint-disable max-len */
 'use strict';
+
+// write your code here
+/* eslint-disable no-multiple-empty-lines */
+/* eslint-disable no-console */
+
 
 const cellsList = Array.from(document.querySelectorAll('.field-cell'));
 const procesingOrder = {
@@ -33,6 +39,8 @@ const messageWin = document.querySelector('.message-win');
 const messageLose = document.querySelector('.message-lose');
 const messageStart = document.querySelector('.message-start');
 
+// console.log(messageStart.cellsList);
+
 startBtn.addEventListener('click', () => {
   if (startBtn.classList.contains('start')) {
     messageStart.classList.add('hidden');
@@ -51,6 +59,7 @@ startBtn.addEventListener('click', () => {
   }
 });
 
+
 function addRandom() {
   const freeCells = cellsList.filter(cell => cell.classList.length === 1);
   const newCellNumber = Math.floor(Math.random() * freeCells.length);
@@ -59,6 +68,8 @@ function addRandom() {
   if (Math.random() >= 0.9) {
     newCellVallue = 4;
   }
+
+  // console.log('random', freeCells[newCellNumber]);
 
   if (freeCells.length > 1) {
     writeToCell(freeCells[newCellNumber], newCellVallue);
@@ -80,6 +91,8 @@ function ifMergable(order) {
   return order.some(lineOrder => {
     for (let i = 0; i < 3; i++) {
       if (lineOrder[i].textContent === lineOrder[i + 1].textContent) {
+        // console.log(lineOrder[i], lineOrder[i + 1]);
+
         return true;
       }
     }
@@ -97,6 +110,7 @@ function writeToCell(cell, number) {
   }
 }
 
+
 const arrows = ['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'];
 
 document.addEventListener('keydown', eventtt => {
@@ -106,12 +120,22 @@ document.addEventListener('keydown', eventtt => {
     const order = procesingOrder[key];
     let ifMovement = false;
 
+    // console.log('new key');
+
     order.forEach(lineOrder => {
+      // console.log('new line');
+
       for (let i = 3, prevContent = -1, previndex = 3; i >= 0; i--) {
         let cellContent = lineOrder[i].textContent;
 
         if (cellContent) {
+          // console.log('status: prevContent = ', prevContent, 'previndex  =', previndex);
+
+
           if (cellContent === prevContent) {
+            // console.log('if0');
+            // console.log(i, lineOrder[i]);
+            // console.log(previndex, lineOrder[previndex]);
             writeToCell(lineOrder[previndex], prevContent * 2);
             writeToCell(lineOrder[i], 0);
             cellContent *= 2;
@@ -125,20 +149,29 @@ document.addEventListener('keydown', eventtt => {
             }
           }
 
+
+
           if (i !== previndex) {
             if (lineOrder[previndex].textContent && i !== previndex - 1) {
+              // console.log('if1');
+              // console.log(i, lineOrder[i]);
+              // console.log(previndex - 1, lineOrder[previndex - 1]);
               writeToCell(lineOrder[previndex - 1], cellContent);
               writeToCell(lineOrder[i], 0);
               previndex = previndex - 1;
               prevContent = cellContent;
               ifMovement = true;
             } else if (!lineOrder[previndex].textContent) {
+              // console.log('if2');
+              // console.log(i, lineOrder[i]);
+              // console.log(previndex, lineOrder[previndex]);
               writeToCell(lineOrder[previndex], cellContent);
               writeToCell(lineOrder[i], 0);
 
               prevContent = cellContent;
               ifMovement = true;
             } else {
+              // console.log('else');
               prevContent = cellContent;
               previndex = i;
             }
@@ -154,3 +187,17 @@ document.addEventListener('keydown', eventtt => {
     }
   }
 });
+
+
+
+
+
+// const numbers = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048];
+
+// console.log(getCellIndex(cellsList[0]));
+// function getCellIndex(cell) {
+//   const rowIndex = cell.parentElement.rowIndex;
+//   const cellIndex = cell.cellIndex;
+
+//   return [rowIndex, cellIndex];
+// }
